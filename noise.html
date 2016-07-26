@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Perlin noise</title>
+    <style>
+        .centerbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+        body, html {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        canvas {
+            box-shadow: 0 0 10px #777;
+            width: 100%;
+            height: 100%;
+        }
+        body {
+            background-color: #eee;
+        }
+    </style>
+</head>
+<body>
+    <div class='centerbox'><canvas></canvas></div>
+    <script src='perlin.js'></script>
+    <script type="text/javascript">
+        noise.seed(Math.random());
+        var time = 0;
+
+        function getColor(value) {
+            if(value > 0.3) {
+                return [0, 0, 0];
+            }
+            else {
+                return [255, 255, 255];
+            }
+        }
+
+        function draw() {
+            var canvas = document.getElementsByTagName('canvas')[0];
+            var ctx = canvas.getContext('2d');
+            var image = ctx.createImageData(canvas.width, canvas.height);
+            var data = image.data;
+            for (var x = 0; x < canvas.width; x++) {
+                for (var y = 0; y < canvas.height; y++) {
+                    // var value = Math.abs(noise.perlin3(x / canvas.width, y / canvas.height, time));
+                    var value = (1 + noise.perlin3(5 * x / canvas.width, 5 * y / canvas.height, time)) / 2;
+                    var color = getColor(value);
+                    var cell = (x + y * canvas.width) * 4;
+                    data[cell] = color[0];
+                    data[cell + 1] = color[1];
+                    data[cell + 2] = color[2];
+                    data[cell + 3] = 255; // alpha.
+                }
+            }
+            ctx.fillColor = 'black';
+            ctx.fillRect(0, 0, 100, 100);
+            ctx.putImageData(image, 0, 0);
+            time += 0.05;
+            requestAnimationFrame(draw);
+        }
+        requestAnimationFrame(draw);
+    </script>
+</body>
+</head>

@@ -1,0 +1,25 @@
+* {
+    box-sizing: border-box;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+}
+
+#universe {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.grid {
+    stroke-width: 1px;
+    stroke: #dddddd;
+}
+
+.water {
+    fill: #0000ff;
+}
